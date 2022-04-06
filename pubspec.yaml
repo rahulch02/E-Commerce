@@ -27,6 +27,7 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  http: ^0.13.4
   flutter:
     sdk: flutter
 
@@ -52,11 +53,9 @@ dev_dependencies:
 # The following section is specific to Flutter.
 flutter:
 
-  uses-material-design: true
-
   assets:
     - assets/fonts/
-    - assets/images/Untitled.png
+    - assets/images/
     
   fonts:
     - family: Merriweather
@@ -67,8 +66,9 @@ flutter:
           weight: 300
         - asset: assets/fonts/Merriweather-Regular.ttf
           weight: 400
-      
 
+  uses-material-design: true
+        
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
