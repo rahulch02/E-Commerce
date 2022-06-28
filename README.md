@@ -4,9 +4,9 @@ A new Flutter project.
 
 ## SDK Versions
 
-Dart SDK Version 2.12.0 or greater.
+Dart SDK Version 2.15.1 or greater.
 
-Flutter SDK Version 2.0.0 or greater.
+Flutter SDK Version 2.8.1 or greater.
 
 ## Libraries
 
