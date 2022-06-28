@@ -1,7 +1,7 @@
 # rahul_s_application1
 
-A grocery shopping and delivery app, made using Flutter Framework, currently under development.
-The User Interface Design can be found on : https://www.figma.com/file/GrL8kwV37ghRZTvVafP3JM/Apper
+A mobile grocery shopping and delivery application, made using Flutter Framework, currently under development.
+The working Prototype Design can be found on : https://www.figma.com/file/GrL8kwV37ghRZTvVafP3JM/Apper
 
 ## SDK Versions
 
