@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-# apper
+# Apper
 
 A new Flutter project.
 
