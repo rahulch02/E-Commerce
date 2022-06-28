@@ -11,7 +11,7 @@ class Baner extends StatelessWidget {
         margin: EdgeInsets.symmetric(horizontal: 15),
         color: Color(0xFFFFDED7),
         child: Image.asset(
-          _link as String,
+          _link,
           fit: BoxFit.cover,
           height: 400,
           width: 800,

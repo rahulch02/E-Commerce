@@ -7,26 +7,28 @@ class CategoryCards extends StatelessWidget {
 
   CategoryCards(CategoryDetails cd) {
     _name = cd.categoryTitle;
-    _link = cd.assetMap['square'] as String;
+    _link = cd.assetMap["categoryImage"] as String;
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 30),
+      decoration: BoxDecoration(boxShadow: [
+        BoxShadow(color: Colors.grey, offset: Offset(1, 2), blurRadius: 4),
+      ], color: Color(0xFFFFD2D2)),
+      margin: EdgeInsets.symmetric(vertical: 30, horizontal: 10),
       padding: EdgeInsets.all(15),
-      color: Color(0xFFFFD2D2),
-      height: 200,
-      width: 150,
+      height: MediaQuery.of(context).size.height * 0.25,
+      width: MediaQuery.of(context).size.width * 0.27,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Image.network(
-            _link,
-            height: 150,
-            width: 150,
-          ),
+          // Image.network(
+          //   _link,
+          //   height: 150,
+          //   width: 150,
+          // ),
           Text(
             _name,
             style: TextStyle(fontSize: 20),
@@ -37,6 +39,8 @@ class CategoryCards extends StatelessWidget {
           ),
           Text(
             'chana, rajma, and much more...',
+            style: TextStyle(
+                fontFamily: "Merriweather", fontWeight: FontWeight.w300),
           )
         ],
       ),
