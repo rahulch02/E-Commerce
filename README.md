@@ -3,6 +3,8 @@
 A mobile grocery shopping and delivery application, made using Flutter Framework, currently under development.
 The working Prototype Design can be found on : https://www.figma.com/file/GrL8kwV37ghRZTvVafP3JM/Apper
 
+The Dummy Data has been hosted on an a [Replit[https://replit.com/@Rahulchaudhar10/boilerplate-express-3?v=1]] (Online IDE) server which contains Express.js scripts for CRUD operations.
+
 ## Getting Started
 
 1. Clone the respository, using ``git clone``.
