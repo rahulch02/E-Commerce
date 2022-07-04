@@ -1,4 +1,4 @@
-# Apper
+# E-Commerce App
 
 A mobile grocery shopping and delivery application, made using Flutter Framework, currently under development.
 The working Prototype Design can be found on : https://www.figma.com/file/GrL8kwV37ghRZTvVafP3JM/Apper
