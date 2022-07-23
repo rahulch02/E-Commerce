@@ -1,25 +1,21 @@
-<<<<<<< HEAD
-# apper
-
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-=======
-# rahul_s_application1
+# E-Commerce App
 
 A mobile grocery shopping and delivery application, made using Flutter Framework, currently under development.
 The working Prototype Design can be found on : https://www.figma.com/file/GrL8kwV37ghRZTvVafP3JM/Apper
+
+The Dummy Data has been hosted on an a Replit [https://replit.com/@Rahulchaudhar10/boilerplate-express-3?v=1] (Online IDE) server which contains Express.js scripts for CRUD operations.
+
+## Getting Started
+
+1. Clone the respository, using ``git clone``.
+2.  Make sure you have the below SDK versions installed.
+3. Run ``flutter pub get`` command in the terminal to install dependencies
+4. Initiate an active debug session in your IDE (preferraby VS Code).
+
+For help getting started with Flutter, view
+[online documentation](https://flutter.dev/docs), which offers tutorials,
+samples, guidance on mobile development, and a full API reference.
+
 
 ## SDK Versions
 
@@ -42,6 +38,11 @@ https://pub.dev/packages/cupertino_icons
 https://pub.dev/packages/shared_preferences
 6. cached_network_image - For storing internet image into cache
 https://pub.dev/packages/cached_network_image
+7. intl - For string parsing operations
+https://pub.dev/packages/intl
+8. foundation - framework primitive class
+https://api.flutter.dev/flutter/foundation/foundation-library.html
+
 
 ## Code - Formatting
 - if your code is not formatted then run following command in your terminal to format code
@@ -50,10 +51,6 @@ dart format .
 ```
 
 
-## Figma design guideline for better accuracy
-
-Read our guidelines to increase the accuracy of design conversion to code by optimizing Figma designs.
-https://docs.dhiwise.com/knowledgehub/reference-guide-and-tools/figma
 
 ## App Navigation
 
