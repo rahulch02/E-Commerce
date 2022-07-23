@@ -1,22 +1,28 @@
 import 'dart:io';
-import 'package:apper/another_card.dart';
+import 'package:apper/auth_screen.dart';
+import 'package:apper/wish_screen.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
-import 'package:apper/classFields.dart';
+import 'package:apper/login_screen.dart';
+import 'package:apper/product_screen_body.dart';
+import 'package:apper/models/classFields.dart';
 import 'package:apper/category_cards.dart';
 import 'setting.dart';
 import 'product_cards.dart';
 import './start.dart';
-import 'banner.dart';
 import 'category_cards.dart';
-import 'classFields.dart';
+import 'models/classFields.dart';
 import 'home_page.dart';
+import 'cart_screen.dart';
+import 'wish_screen.dart';
 
 void main() {
   // WidgetsFlutterBinding.ensureInitialized();
@@ -25,6 +31,8 @@ void main() {
   runApp(MyApp());
 }
 
+enum Menu { itemOne, itemTwo }
+
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -32,21 +40,41 @@ class MyApp extends StatelessWidget {
         defaultTargetPlatform == TargetPlatform.android)
       return Platform.isIOS
           ? CupertinoApp(
-              home: Home(),
+              home: LoginScreen(),
             )
-          : MaterialApp(home: Home());
+          : MaterialApp(
+              home: AuthScreen(),
+              routes: {
+                Home.routeName: (ctx) => Home(),
+                Settings.routeName: (ctx) => Settings(),
+                CartScreen.routeName: (ctx) => CartScreen(),
+                WishScreen.routeName: (ctx) => WishScreen()
+              },
+            );
 
     return Container();
   }
 }
 
-class appBar extends StatelessWidget with PreferredSizeWidget {
+class appBar extends StatefulWidget with PreferredSizeWidget {
   late GlobalKey<ScaffoldState> gKey;
 
   appBar(this.gKey);
 
   @override
   Size get preferredSize => Size.fromHeight(kToolbarHeight);
+
+  @override
+  State<appBar> createState() => _appBarState();
+}
+
+class _appBarState extends State<appBar> {
+  late String _selectedMenu;
+
+  @override
+  intiState() {
+    _selectedMenu = '';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,10 +92,32 @@ class appBar extends StatelessWidget with PreferredSizeWidget {
           width: 50 * width,
           margin: EdgeInsets.only(right: 0),
           child: InkWell(
-              child: Icon(
-                Icons.location_on,
-                color: Colors.black,
-              ),
+              child: PopupMenuButton<Menu>(
+                  color: Colors.white,
+                  icon: Icon(
+                    Icons.more_vert_outlined,
+                    color: Colors.black,
+                  ),
+                  // Callback that sets the selected popup menu item.
+                  onSelected: (Menu item) {
+                    setState(() {
+                      _selectedMenu = item.name;
+                    });
+                  },
+                  itemBuilder: (BuildContext ctx) => <PopupMenuEntry<Menu>>[
+                        PopupMenuItem<Menu>(
+                          value: Menu.itemOne,
+                          child: Text('My Wishlist'),
+                          onTap: () {
+                            Navigator.pushNamed(ctx, WishScreen.routeName,
+                                arguments: {});
+                          },
+                        ),
+                        const PopupMenuItem<Menu>(
+                          value: Menu.itemTwo,
+                          child: Text('Settings'),
+                        ),
+                      ]),
               onTap: () {}),
         ),
       ],
@@ -84,7 +134,7 @@ class appBar extends StatelessWidget with PreferredSizeWidget {
           color: Colors.black,
         ),
         onTap: () {
-          gKey.currentState?.openDrawer();
+          widget.gKey.currentState?.openDrawer();
         },
       ),
       leadingWidth: 50 * width,
@@ -226,9 +276,8 @@ class DrawerWidget extends StatelessWidget {
                           fontWeight: FontWeight.w400),
                     ),
                     onTap: () {
-                      Navigator.pop(context);
-                      Navigator.push(context,
-                          new MaterialPageRoute(builder: (context) => MyApp()));
+                      Navigator.pushNamed(context, Settings.routeName,
+                          arguments: {});
                     }),
                 ListTile(
                     title: Text(

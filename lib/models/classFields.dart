@@ -1,6 +1,17 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+Future<bool> isInStock(String productid) async {
+  final resp = await http.get(Uri.parse(
+      'https://boilerplate-express-3.rahulchaudhar10.repl.co/products/?id=$productid'));
+
+  if (resp.statusCode == 200) {
+    return (jsonDecode(resp.body)["inStock"]);
+  } else {
+    throw Exception('Failed to Load Product\nConnection Error :(');
+  }
+}
+
 class CategoryDetailsList {
   late List<CategoryDetails> list;
 
@@ -59,6 +70,7 @@ class ProductDetailsList {
 
 class ProductDetails {
   late String productID;
+  late String productAbout;
   late String productTitle;
   late double productRating;
   late double productCost;
@@ -69,9 +81,18 @@ class ProductDetails {
   late DateTime updatedTs;
   late DateTime deletedTs;
   late Map<String, String> assetMap;
+  double quantity = 0;
+  bool isFavorite = false;
 
-  ProductDetails(this.productID, this.productTitle, this.productRating,
-      this.productCost, this.assetMap, this.weight, this.productType);
+  ProductDetails(
+      this.productID,
+      this.productTitle,
+      this.productRating,
+      this.productCost,
+      this.assetMap,
+      this.weight,
+      this.productType,
+      this.productAbout);
 
   factory ProductDetails.fromJson(Map<String, dynamic> json) {
     return ProductDetails(
@@ -81,7 +102,8 @@ class ProductDetails {
         double.parse((json['productCost'])),
         Map<String, String>.from(json['assetMap']),
         json['weight'],
-        json['productType']);
+        json['productType'],
+        json['productAbout']);
   }
 }
 

@@ -1,39 +1,51 @@
 // ignore_for_file: deprecated_member_use
-
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'dart:convert';
-import 'classFields.dart';
+import 'package:provider/provider.dart';
+
+import 'package:apper/main.dart';
+import 'models/classFields.dart';
+import 'package:apper/product_screen_body.dart';
+import 'package:apper/providers/products_provider.dart';
+import 'product_screen.dart';
 
 class ProductCards extends StatefulWidget {
   // final Map<String,Object> _ratings = {'User Count':43, 'Aggregate Ratings':4.3};
   late ProductDetails pd;
+
   ProductCards(this.pd);
 
   @override
-  State<ProductCards> createState() => _ProductCardsState(pd);
+  State<ProductCards> createState() => _ProductCardsState();
 }
 
 class _ProductCardsState extends State<ProductCards> {
-  late ProductDetails details;
-  late String _type, _name, _link;
+  late String _type, _name, _link, _id, _about;
   late String _weight;
   late double _qty, _userCount = 43, _rating, _price;
 
-  _ProductCardsState(ProductDetails details) {
-    this.details = details;
-  }
-
   @override
   void initState() {
-    _name = details.productTitle;
-    _type = details.productType;
-    _price = details.productCost;
+    _about = widget.pd.productAbout;
+    _id = widget.pd.productID;
+    _name = widget.pd.productTitle;
+    _type = widget.pd.productType;
+    _price = widget.pd.productCost;
     _qty = 1;
-    _weight = details.weight;
-    _link = details.assetMap['productImage'] as String;
-    _rating = details.productRating;
+    _weight = widget.pd.weight;
+    _link = widget.pd.assetMap['productImage'] as String;
+    _rating = widget.pd.productRating;
     super.initState();
+  }
+
+  void onclickProduct(BuildContext context) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => ProductScreen(
+                _name, _price, _about, _qty, _weight, _type, _price)));
   }
 
   @override
@@ -46,9 +58,10 @@ class _ProductCardsState extends State<ProductCards> {
       height: 120,
       margin: EdgeInsets.symmetric(
           horizontal: width * 0.02, vertical: height * 0.02),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(7),
-        hoverColor: Colors.grey,
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+        ),
         child: Container(
           decoration: BoxDecoration(
             boxShadow: [
@@ -64,30 +77,31 @@ class _ProductCardsState extends State<ProductCards> {
           child: Row(children: [
             Container(
               height: 250,
-              width: 115,
+              width: 100,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(6))),
               padding: EdgeInsets.all(5),
-              // child: Image.network(
-              //   _link,
-              //   fit: BoxFit.cover,
-              // ),
+              child: Image.asset(
+                "assets/images/wheat.jpg",
+                fit: BoxFit.cover,
+              ),
             ),
             Container(
               height: 115,
               margin: EdgeInsets.all(10),
-              child: Expanded(
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Container(
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        InkWell(
+                          onTap: () => onclickProduct(context),
+                          child: Container(
                             width: 180,
                             child: RichText(
                               text: TextSpan(
-                                  text: _name,
+                                  text: _name + '\t',
                                   style: TextStyle(
                                       fontSize: 15,
                                       fontFamily: 'Merriweather',
@@ -96,11 +110,10 @@ class _ProductCardsState extends State<ProductCards> {
                                       wordSpacing: 2),
                                   children: <TextSpan>[
                                     TextSpan(
-                                      text: _type,
+                                      text: "(" + _type + ")",
                                       style: TextStyle(
                                         fontSize: 11,
                                         fontFamily: 'Merriweather',
-                                        fontStyle: FontStyle.italic,
                                         fontWeight: FontWeight.w300,
                                         letterSpacing: 1,
                                       ),
@@ -108,43 +121,46 @@ class _ProductCardsState extends State<ProductCards> {
                                   ]),
                             ),
                           ),
-                          Container(
-                            padding: EdgeInsets.only(left: 30),
-                            child: Icon(
-                              Icons.info,
-                              size: 13,
-                            ),
-                          )
-                        ],
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(top: 8, bottom: 4),
-                        height: 0.4,
-                        color: Colors.black,
-                        width: 130,
-                      ),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            margin: EdgeInsets.only(right: 5),
-                            width: 170,
-                            height: 65,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                    margin: EdgeInsets.only(top: 3),
-                                    child: Text(
-                                      'Price: ₹ ${_price}',
-                                      style: TextStyle(
-                                          fontSize: 11,
-                                          fontFamily: 'Merriweather',
-                                          fontWeight: FontWeight.w700,
-                                          letterSpacing: 1),
-                                    )),
-                                Row(
+                        ),
+                        Container(
+                          padding: EdgeInsets.only(left: 30),
+                          child: Icon(
+                            Icons.info,
+                            size: 13,
+                          ),
+                        )
+                      ],
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 8, bottom: 4),
+                      height: 0.4,
+                      color: Colors.black,
+                      width: 130,
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(right: 5),
+                          width: 170,
+                          height: 65,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                  margin: EdgeInsets.only(top: 3),
+                                  child: Text(
+                                    'Price: ₹ ${_price}',
+                                    style: TextStyle(
+                                        fontSize: 11,
+                                        fontFamily: 'Merriweather',
+                                        fontWeight: FontWeight.w700,
+                                        letterSpacing: 1),
+                                  )),
+                              Container(
+                                margin: EdgeInsets.symmetric(vertical: 5),
+                                child: Row(
                                   children: [
                                     Container(
                                       child: Text(
@@ -170,7 +186,7 @@ class _ProductCardsState extends State<ProductCards> {
                                         Container(
                                           alignment: Alignment.center,
                                           width: 20,
-                                          height: 17,
+                                          height: 20,
                                           child: InkWell(
                                               onTap: () {
                                                 setState(() {
@@ -186,6 +202,7 @@ class _ProductCardsState extends State<ProductCards> {
                                         Container(
                                           alignment: Alignment.center,
                                           width: 60,
+                                          height: 20,
                                           child: Text(
                                             (_qty).toString() + ' ' + _weight,
                                             style: TextStyle(
@@ -197,7 +214,7 @@ class _ProductCardsState extends State<ProductCards> {
                                         Container(
                                           alignment: Alignment.center,
                                           width: 20,
-                                          height: 17,
+                                          height: 20,
                                           child: InkWell(
                                               onTap: () {
                                                 setState(() {
@@ -214,109 +231,147 @@ class _ProductCardsState extends State<ProductCards> {
                                     ),
                                   ],
                                 ),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      margin: EdgeInsets.only(right: 3),
-                                      child: Icon(
-                                        Icons.star_border_outlined,
-                                        size: 13,
-                                      ),
-                                    ),
-                                    Container(
-                                      margin: EdgeInsets.only(right: 3),
-                                      child: Icon(
-                                        Icons.star_border_outlined,
-                                        size: 13,
-                                      ),
-                                    ),
-                                    Container(
-                                      margin: EdgeInsets.only(right: 3),
-                                      child: Icon(
-                                        Icons.star_border_outlined,
-                                        size: 13,
-                                      ),
-                                    ),
-                                    Container(
-                                      margin: EdgeInsets.only(right: 3),
-                                      child: Icon(
-                                        Icons.star_border_outlined,
-                                        size: 13,
-                                      ),
-                                    ),
-                                    Container(
-                                      margin: EdgeInsets.only(right: 3),
-                                      child: Icon(
-                                        Icons.star_border_outlined,
-                                        size: 13,
-                                      ),
-                                    ),
-                                    Container(
-                                      height: 15,
-                                      width: 40,
-                                      decoration: BoxDecoration(
-                                          color: Colors.green,
-                                          borderRadius:
-                                              BorderRadius.circular(10)),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          Text(
-                                            (4.3).toString(),
-                                            style: TextStyle(fontSize: 10),
-                                          ),
-                                          Icon(
-                                            Icons.star_rate,
-                                            size: 10,
-                                          )
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            alignment: Alignment.bottomRight,
-                            decoration: BoxDecoration(
-                              boxShadow: [
-                                BoxShadow(
-                                    blurRadius: 5,
-                                    color: Colors.grey,
-                                    offset: Offset(2, 2))
-                              ],
-                            ),
-                            height: 55,
-                            width: 48,
-                            child: FlatButton(
-                              color: Colors.white,
-                              onPressed: () => {},
-                              child: Container(
-                                  child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
+                              ),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  Icon(Icons.shopping_cart_outlined),
-                                  Text(
-                                    "Add to\nCart",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(fontSize: 8),
+                                  Container(
+                                    margin: EdgeInsets.only(right: 3),
+                                    child: Icon(
+                                      Icons.star_border_outlined,
+                                      size: 13,
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(right: 3),
+                                    child: Icon(
+                                      Icons.star_border_outlined,
+                                      size: 13,
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(right: 3),
+                                    child: Icon(
+                                      Icons.star_border_outlined,
+                                      size: 13,
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(right: 3),
+                                    child: Icon(
+                                      Icons.star_border_outlined,
+                                      size: 13,
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(right: 3),
+                                    child: Icon(
+                                      Icons.star_border_outlined,
+                                      size: 13,
+                                    ),
+                                  ),
+                                  Container(
+                                    height: 15,
+                                    width: 40,
+                                    decoration: BoxDecoration(
+                                        color: Colors.green,
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        Text(
+                                          (4.3).toString(),
+                                          style: TextStyle(fontSize: 10),
+                                        ),
+                                        Icon(
+                                          Icons.star_rate,
+                                          size: 10,
+                                        )
+                                      ],
+                                    ),
                                   )
                                 ],
-                              )),
-                            ),
+                              ),
+                            ],
                           ),
-                        ],
-                      )
-                    ]),
-              ),
+                        ),
+                        Container(
+                          alignment: Alignment.bottomRight,
+                          decoration: BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                  blurRadius: 5,
+                                  color: Colors.grey,
+                                  offset: Offset(2, 2))
+                            ],
+                          ),
+                          height: 55,
+                          width: 48,
+                          child: FlatButton(
+                            color: Colors.white,
+                            onPressed: () => Provider.of<ProductsProvider>(
+                                    context,
+                                    listen: false)
+                                .changeCartItems(_id, true, context, _qty),
+                            child: Container(
+                                child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Icon(Icons.shopping_cart_outlined),
+                                Text(
+                                  "Add to\nCart",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(fontSize: 8),
+                                )
+                              ],
+                            )),
+                          ),
+                        ),
+                        Favorite(_id),
+                      ],
+                    )
+                  ]),
             ),
           ]),
         ),
       ),
     );
+  }
+}
+
+class Favorite extends StatelessWidget {
+  final String _id;
+
+  Favorite(this._id);
+
+  @override
+  Widget build(BuildContext context) {
+    var isFavorite = Provider.of<ProductsProvider>(context).isFavorite(_id);
+    Function setFavorite = Provider.of<ProductsProvider>(context).setFavorite;
+    return isFavorite
+        ? InkWell(
+            onTap: () => setFavorite(_id),
+            child: Container(
+                margin: EdgeInsets.only(
+                    left: 0.05 * MediaQuery.of(context).size.width),
+                child: Icon(
+                  Icons.favorite_border,
+                  color: Colors.redAccent,
+                )),
+          )
+        : InkWell(
+            onTap: () => setFavorite(_id),
+            child: Container(
+              margin: EdgeInsets.only(
+                  left: 0.05 * MediaQuery.of(context).size.width),
+              child: Icon(
+                Icons.favorite_outlined,
+                color: Colors.redAccent,
+              ),
+            ),
+          );
   }
 }

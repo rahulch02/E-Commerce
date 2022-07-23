@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'classFields.dart';
+import 'models/classFields.dart';
 import 'dart:convert';
 
 class CategoryCards extends StatelessWidget {
@@ -18,27 +18,32 @@ class CategoryCards extends StatelessWidget {
       ], color: Color(0xFFFFD2D2)),
       margin: EdgeInsets.symmetric(vertical: 30, horizontal: 10),
       padding: EdgeInsets.all(15),
-      height: MediaQuery.of(context).size.height * 0.25,
-      width: MediaQuery.of(context).size.width * 0.27,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          // Image.network(
-          //   _link,
-          //   height: 150,
-          //   width: 150,
-          // ),
+          Expanded(
+            child: Image.asset(
+              'assets/images/wheat.jpg',
+              fit: BoxFit.fill,
+            ),
+          ),
+          Divider(
+            height: 8,
+            color: Colors.transparent,
+          ),
           Text(
             _name,
             style: TextStyle(fontSize: 20),
           ),
+          Divider(height: 10),
           Divider(
-            height: 10,
+            height: 1,
             thickness: 1,
           ),
           Text(
             'chana, rajma, and much more...',
+            overflow: TextOverflow.fade,
             style: TextStyle(
                 fontFamily: "Merriweather", fontWeight: FontWeight.w300),
           )

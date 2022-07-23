@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "974799153525",
+    "project_id": "apper-6630d",
+    "storage_bucket": "apper-6630d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:974799153525:android:4e5e8e249a739f3bc68b3c",
+        "android_client_info": {
+          "package_name": "com.example.apper"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "974799153525-fuf37f4q09ap132qghdahod70ngpcb18.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCKUZt7ma2ogqQHodW174Lfy_tv2Udpm1w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "974799153525-fuf37f4q09ap132qghdahod70ngpcb18.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
